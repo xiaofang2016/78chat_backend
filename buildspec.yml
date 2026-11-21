@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  build:
+    commands:
+      - mvn -B -pl im-platform -am -DskipTests package
+  post_build:
+    commands:
+      - mkdir -p output/scripts
+      - cp im-platform/target/im-platform.jar output/im-platform.jar
+      - cp docker/Dockerfile output/Dockerfile
+      - cp docker-compose.api.yml output/docker-compose.api.yml
+      - cp appspec.yml output/appspec.yml
+      - cp deploy/api/start.sh deploy/api/stop.sh deploy/api/validate.sh deploy/api/env.example output/scripts/
+      - cp deploy/api/env.example output/env.example
+      - cp deploy/api/dockerignore output/.dockerignore
+      - chmod 755 output/scripts/*.sh
+artifacts:
+  base-directory: output
+  files:
+    - '**/*'

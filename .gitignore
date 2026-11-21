@@ -1,0 +1,18 @@
+.idea
+*/target/*
+/im-web/node_modules/
+/im-web/dist/
+# 根目录 src 为历史遗留副本，实际代码在 im-platform/src 等子模块
+/src/
+# 含口令的运行配置，留在本机，不进 git。
+# 职圈线上口令在 /var/local/zhiquan-api/.env，不在这些文件的提交版本里。
+/docker-compose.yml
+im-platform/src/main/resources/application.yml
+im-platform/src/main/resources/application-dev.yml
+im-platform/src/main/resources/application-test.yml
+im-platform/src/main/resources/application-prod.yml
+im-platform/src/main/resources/application-local.yml
+im-server/src/main/resources/application.yml
+im-server/src/main/resources/application-dev.yml
+im-server/src/main/resources/application-test.yml
+im-server/src/main/resources/application-prod.yml

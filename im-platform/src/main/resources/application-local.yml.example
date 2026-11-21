@@ -1,0 +1,10 @@
+# 本地私密配置示例：复制为本目录下的 application-local.yml 后再填写密钥。
+# application-local.yml 已被 .gitignore 忽略，不要提交。
+#
+# cp application-local.yml.example application-local.yml
+openai:
+  # 推荐：本机先执行 codex login，默认读取 ~/.codex/auth.json
+  auth-mode: codex-oauth
+  # 知识库 Embedding 仍需要平台 API Key（可选）
+  api-key: ""
+  # codex-auth-file: /Users/you/.codex/auth.json
