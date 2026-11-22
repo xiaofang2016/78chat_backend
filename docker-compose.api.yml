@@ -16,9 +16,12 @@ services:
       - "127.0.0.1:18889:8888"
     volumes:
       - ./im-platform.jar:/app/app.jar:ro
+      # 口令配置留在机器上，不进制品。流水线覆盖同目录其他文件时不动 config/。
+      - ./config:/app/config:ro
       - ${CODEX_AUTH_DIR:-/root/snap/codex/34}:/codex-auth
     command:
       - --spring.profiles.active=prod
+      - --spring.config.additional-location=file:/app/config/
       - --server.servlet.context-path=/api
       - --spring.task.scheduling.enabled=false
       - --im.scheduling.enabled=false
