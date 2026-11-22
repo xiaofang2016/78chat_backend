@@ -22,3 +22,6 @@ artifacts:
   base-directory: output
   files:
     - '**/*'
+cache:
+  paths:
+    - '/root/.m2/repository/**/*'
