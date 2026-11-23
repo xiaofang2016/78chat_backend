@@ -20,4 +20,9 @@ aws ssm get-parameter --region ap-northeast-1 \
   --output text > .env.tmp
 mv .env.tmp .env
 chmod 600 .env
+# Image is only a Java runtime. The jar is mounted in. Build once on a new
+# machine so Compose does not pull 78chat-im-platform:local from Docker Hub.
+if ! docker image inspect 78chat-im-platform:local >/dev/null 2>&1; then
+  docker build -t 78chat-im-platform:local -f Dockerfile .
+fi
 docker compose -p zhiquan-api -f /var/local/zhiquan-api/docker-compose.api.yml --project-directory /var/local/zhiquan-api up -d --force-recreate --remove-orphans

@@ -1,13 +1,13 @@
-# 新版本职圈接口。只跑 im-platform。
-# 运行环境用已经在机器上的 78chat-im-platform:local，jar 挂进新容器。
-# 不重建这个镜像，也不动 zhiquan-im-platform-1。
-# MySQL、Redis、MinIO、im-server 沿用已经在跑的那套。
+# Zhiquan API. Only im-platform runs here.
+# start.sh builds 78chat-im-platform:local on the machine. The jar is mounted in.
+# MySQL, Redis, MinIO, and im-server stay on the services already running.
 
 name: zhiquan-api
 
 services:
   im-platform:
     image: 78chat-im-platform:local
+    pull_policy: never
     container_name: zhiquan-api
     restart: unless-stopped
     extra_hosts:
@@ -16,7 +16,7 @@ services:
       - "127.0.0.1:18889:8888"
     volumes:
       - ./im-platform.jar:/app/app.jar:ro
-      # 口令配置留在机器上，不进制品。流水线覆盖同目录其他文件时不动 config/。
+      # Secrets stay on the machine. Deploys overwrite other files in this directory and leave config/ alone.
       - ./config:/app/config:ro
       - ${CODEX_AUTH_DIR:-/root/snap/codex/34}:/codex-auth
     command:
