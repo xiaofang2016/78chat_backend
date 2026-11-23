@@ -20,41 +20,19 @@ services:
       - ./config:/app/config:ro
       - ${CODEX_AUTH_DIR:-/root/snap/codex/34}:/codex-auth
     command:
-      - --spring.profiles.active=prod
       - --spring.config.additional-location=file:/app/config/
       - --server.servlet.context-path=/api
-      - --spring.task.scheduling.enabled=false
-      - --im.scheduling.enabled=false
-      - --spring.datasource.url=jdbc:mysql://host.docker.internal:13306/im_platform?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true
-      - --spring.datasource.username=root
+      - --spring.profiles.active=prod
+      - --spring.task.scheduling.enabled=${SCHEDULING_ENABLED}
+      - --im.scheduling.enabled=${SCHEDULING_ENABLED}
+      - --spring.datasource.url=${DATASOURCE_URL}
+      - --spring.datasource.username=${DATASOURCE_USERNAME}
       - --spring.datasource.password=${ZHQUAN_DB_PASSWORD}
-      - --spring.data.redis.host=172.31.4.67
-      - --spring.data.redis.port=6379
+      - --spring.data.redis.host=${REDIS_HOST}
+      - --spring.data.redis.port=${REDIS_PORT}
       - --spring.data.redis.password=${ZHQUAN_REDIS_PASSWORD}
-      - --spring.data.redis.database=3
-      - --minio.endpoint=http://host.docker.internal:9100
-      - --openai.auth-mode=codex-oauth
-      - --openai.codex-auth-file=/codex-auth/auth.json
-      - --openai.codex-model=gpt-6-luna
-      - --ai-cs.knowledge-base.enabled=true
-      - --ai-cs.knowledge-base.embedding-url=http://host.docker.internal:8791
-      - --ai-cs.knowledge-base.bot-user-ids[0]=9000000004
-      - --ai-cs.knowledge-base.bot-user-ids[1]=900001
-      - --ai-cs.knowledge-base.bot-user-ids[2]=9000000005
-      - --ai-cs.knowledge-base.bot-user-ids[3]=9000000006
-      - --ai-cs.knowledge-base.bot-user-ids[4]=9000000007
-      - --ai-cs.knowledge-base.bot-user-ids[5]=9000000008
-      - --ai-cs.knowledge-base.bot-user-ids[6]=9000000009
-      - --ai-cs.knowledge-base.bot-user-ids[7]=9000000010
-      - --ai-cs.knowledge-base.bot-user-ids[8]=9000000011
-      - --ai-cs.knowledge-base.bot-user-ids[9]=9000000012
+      - --spring.data.redis.database=${REDIS_DATABASE}
+      - --minio.endpoint=${MINIO_ENDPOINT}
+      - --ai-cs.knowledge-base.embedding-url=${EMBEDDING_URL}
       - --sport.account.bound-secret=${SPORT_BOUND_SECRET:-}
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[0]=40
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[1]=52
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[2]=86
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[3]=87
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[4]=88
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[5]=56819
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[6]=57156
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[7]=57157
-      - --ai-cs.knowledge-ingest-bot.admin-user-ids[8]=57158
+      - --ai-cs.knowledge-ingest-bot.admin-user-ids=${KNOWLEDGE_INGEST_ADMIN_USER_IDS}
