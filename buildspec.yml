@@ -6,7 +6,7 @@ phases:
       java: corretto17
   build:
     commands:
-      - mvn -B -pl im-platform-parent -am test
+      - mvn -B -pl im-platform -am test
       - mvn -B -pl im-platform -am -DskipTests package
   post_build:
     commands:
