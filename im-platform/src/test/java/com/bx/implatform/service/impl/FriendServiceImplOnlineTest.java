@@ -31,6 +31,7 @@ class FriendServiceImplOnlineTest {
         List<Long> ids = new ArrayList<>(List.of(11L));
         assertTrue(OfficialCsNames.appendSportOnlineIds("10011", ids).isEmpty());
         assertTrue(OfficialCsNames.appendSportOnlineIds(null, ids).isEmpty());
+        assertTrue(OfficialCsNames.appendSportOnlineIds("  ", ids).isEmpty());
         assertEquals(List.of(11L), ids);
     }
 
