@@ -378,11 +378,12 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friend> impleme
 
     @Override
     public List<UserOnlineVO> findOnlineTerminals() {
-        // 查询好友id列表
-        List<Long> ids = findFriendIds();
-        // 查询在线的好友终端
+        List<Long> ids = new ArrayList<>(findFriendIds());
+        User me = userMapper.selectById(SessionContext.getSession().getUserId());
+        String merchantNo = me == null ? null : me.getMerchantNo();
+        List<Long> sportIds = OfficialCsNames.appendSportOnlineIds(merchantNo, ids);
         Map<Long, List<IMTerminalType>> onlineMap = imClient.getOnlineTerminal(ids);
-        // 返回vo
+        preferClientTerminal(onlineMap, sportIds);
         List<UserOnlineVO> vos = new ArrayList<>();
         onlineMap.forEach((userId, terminals) -> terminals.forEach(terminal -> {
             UserOnlineVO vo = new UserOnlineVO();
@@ -392,6 +393,31 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friend> impleme
             vos.add(vo);
         }));
         return vos;
+    }
+
+    /**
+     * 说球帝前端只把网页 0 和 App 1 当成在线。客服只挂在别的端上时，补一条网页在线。
+     */
+    static void preferClientTerminal(Map<Long, List<IMTerminalType>> onlineMap, List<Long> userIds) {
+        if (onlineMap == null || userIds == null || userIds.isEmpty()) {
+            return;
+        }
+        for (Long userId : userIds) {
+            List<IMTerminalType> terminals = onlineMap.get(userId);
+            if (terminals == null || terminals.isEmpty()) {
+                continue;
+            }
+            boolean client = false;
+            for (IMTerminalType terminal : terminals) {
+                if (terminal == IMTerminalType.WEB || terminal == IMTerminalType.APP) {
+                    client = true;
+                    break;
+                }
+            }
+            if (!client) {
+                terminals.add(IMTerminalType.WEB);
+            }
+        }
     }
 
     @Override

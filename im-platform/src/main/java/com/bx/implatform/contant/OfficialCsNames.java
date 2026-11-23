@@ -1,8 +1,10 @@
 package com.bx.implatform.contant;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 官方客服分开服务：小红只接吉祥体育，小绿只接 UED，客服美美和通讯录客服只接说球帝。
@@ -69,6 +71,23 @@ public final class OfficialCsNames {
             ids.add(id);
         }
         return ids;
+    }
+
+    /**
+     * 说球帝查在线时，把通讯录里固定的客服补进 ids。没有好友记录也查。
+     * 不是说球帝时不改 ids，返回空列表。
+     */
+    public static List<Long> appendSportOnlineIds(String merchantNo, List<Long> ids) {
+        if (ids == null || merchantNo == null || !SPORT_MERCHANT.equals(merchantNo.trim())) {
+            return List.of();
+        }
+        Set<Long> present = new HashSet<>(ids);
+        for (Long id : sportContactIds()) {
+            if (present.add(id)) {
+                ids.add(id);
+            }
+        }
+        return sportContactIds();
     }
 
     public static boolean isOfficial(Long botId) {
