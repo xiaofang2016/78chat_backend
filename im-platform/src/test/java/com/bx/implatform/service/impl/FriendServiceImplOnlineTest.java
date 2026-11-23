@@ -21,7 +21,7 @@ class FriendServiceImplOnlineTest {
         List<Long> watch = OfficialCsNames.appendSportOnlineIds(" sport ", ids);
         assertEquals(OfficialCsNames.sportContactIds(), watch);
         assertEquals(11L, ids.get(0));
-        assertEquals(1, ids.stream().filter(OfficialCsNames.MEIMEI_ID::equals).count());
+        assertEquals(1, ids.stream().filter(id -> id == OfficialCsNames.MEIMEI_ID).count());
         assertTrue(ids.contains(OfficialCsNames.TIANTIAN_ID));
         assertEquals(1 + OfficialCsNames.sportContactIds().size(), ids.size());
     }
