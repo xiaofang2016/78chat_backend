@@ -24,16 +24,13 @@ public class AiCsConfigStartupLogger implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         OpenAiAuthMode authMode = OpenAiAuthMode.fromConfig(openAIProperties.getAuthMode());
-        String codexModel = openAIProperties.getCodexModel();
-        if (codexModel == null || codexModel.isBlank()) {
-            codexModel = openAIProperties.getModel();
-        }
         log.info(
-            "[ai-cs] startup enabled={} kb.enabled={} kb.bots={} openai.auth-mode={} openai.codex-model={}",
+            "[ai-cs] startup enabled={} kb.enabled={} kb.bots={} openai.auth-mode={} openai.model={} openai.api-key-secret-id={}",
             aiCsProps.isEnabled(),
             kbProps.isEnabled(),
             kbProps.getBotUserIds(),
             authMode,
-            codexModel);
+            openAIProperties.getModel(),
+            openAIProperties.getApiKeySecretId());
     }
 }

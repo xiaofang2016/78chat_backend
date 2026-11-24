@@ -17,9 +17,19 @@ public class OpenAIProperties {
     /**
      * OpenAI API Key.
      * 建议通过环境变量 OPENAI_API_KEY 注入，避免写死到仓库。
-     * 知识库向量不使用这项。Codex OAuth 对话可留空。
+     * 生产客服不读这项，启动时用 {@link #apiKeySecretId} 覆盖。
      */
     private String apiKey;
+
+    /**
+     * Secrets Manager 密钥名。值是 JSON，字段 {@code openAI-KEY}。
+     * 读到之后客服对话和知识库向量都走 api-key，不再用 Codex。
+     * 设成空字符串则沿用 {@link #authMode}。
+     */
+    private String apiKeySecretId = "prod/openAIKey";
+
+    /** {@link #apiKeySecretId} 所在区域。 */
+    private String apiKeySecretRegion = "ap-northeast-1";
 
     /** Codex OAuth 凭证文件，默认 {@code ~/.codex/auth.json}（由 {@code codex login} 生成） */
     private String codexAuthFile;

@@ -129,6 +129,10 @@
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>lambda</artifactId>
         </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>secretsmanager</artifactId>
+        </dependency>
         <!-- 二维码生成依赖 -->
         <dependency>
             <groupId>com.google.zxing</groupId>
